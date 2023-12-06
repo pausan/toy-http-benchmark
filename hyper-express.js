@@ -23,8 +23,7 @@ async function start(port) {
       .header("Content-Type", "text/html")
       .send("<html><body>About page</body></html>");
   });
-
-  webserver.use((req, res) => {
+  webserver.get("*", (req, res) => {
     res.status(404).send("Not Found");
   });
 
