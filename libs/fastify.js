@@ -9,20 +9,20 @@ const fastify = require("fastify");
 async function start(port) {
   const server = fastify();
   server.get("/hey", async (request, reply) => {
-    return "Hey!";
+    return util.RESPONSE_HEY;
   });
   server.get("/hell", async (request, reply) => {
-    return "Hell!";
+    return util.RESPONSE_HELL;
   });
   server.get("/hello", async (request, reply) => {
-    return "Hello World!";
+    return util.RESPONSE_HELLO;
   });
   server.get("/about", async (request, reply) => {
-    reply.type("text/html").send("<html><body>About page</body></html>");
+    reply.type("text/html").send(util.RESPONSE_ABOUT);
   });
 
   server.setNotFoundHandler(async (request, reply) => {
-    reply.code(404).send("Not Found");
+    reply.code(404).send(util.RESPONSE_NOT_FOUND);
   });
 
   await server.listen({ port });

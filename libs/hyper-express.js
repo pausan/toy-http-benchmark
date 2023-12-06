@@ -10,21 +10,21 @@ async function start(port) {
   const webserver = new HyperExpress.Server();
 
   webserver.get("/hey", (req, res) => {
-    res.send("Hey!");
+    res.send(util.RESPONSE_HEY)
   });
   webserver.get("/hel", (req, res) => {
-    res.send("Hell!");
+    res.send(util.RESPONSE_HELL)
   });
   webserver.get("/hello", (req, res) => {
-    res.send("Hello World!");
+    res.send(util.RESPONSE_HELLO)
   });
   webserver.get("/about", (req, res) => {
     res
       .header("Content-Type", "text/html")
-      .send("<html><body>About page</body></html>");
+      .send(util.RESPONSE_ABOUT);
   });
   webserver.get("*", (req, res) => {
-    res.status(404).send("Not Found");
+    res.status(404).send(util.RESPONSE_NOT_FOUND);
   });
 
   await webserver.listen(port);

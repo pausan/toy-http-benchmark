@@ -9,22 +9,22 @@ const zero = require("0http");
 async function start(port) {
   const { router, server } = zero();
   router.get("/hey", async (request, reply) => {
-    return "Hey!";
+    return util.RESPONSE_HEY;
   });
   router.get("/hell", async (request, reply) => {
-    return "Hell!";
+    return util.RESPONSE_HELL;
   });
   router.get("/hello", async (request, reply) => {
-    return "Hello World!";
+    return util.RESPONSE_HELLO;
   });
   router.get("/about", async (request, reply) => {
-    reply.type("text/html").send("<html><body>About page</body></html>");
+    reply.type("text/html").send(util.RESPONSE_ABOUT);
   });
 
   await server.listen(port, {
     defaultRoute: (req, res) => {
       res.statusCode = 404;
-      res.send("Not Found");
+      res.send(util.RESPONSE_NOT_FOUND);
     },
   });
   return {

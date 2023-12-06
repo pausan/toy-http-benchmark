@@ -20,4 +20,10 @@ function getModuleVersion(module) {
 module.exports = {
   getModuleName,
   getModuleVersion,
+
+  RESPONSE_HEY: "Hey!",
+  RESPONSE_HELL: "Hell!",
+  RESPONSE_HELLO: "Hello!",
+  RESPONSE_ABOUT: "<html><body>About page</body></html>",
+  RESPONSE_NOT_FOUND: "Not Found",
 };

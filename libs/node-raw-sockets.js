@@ -9,6 +9,7 @@
 // MIT License
 // -----------------------------------------------------------------------------
 const net = require("net");
+const util = require("./util");
 
 function start(port) {
   const server = net.createServer((socket) => {
@@ -25,17 +26,17 @@ function start(port) {
         let headers = ["Connection: keep-alive"];
         switch (url) {
           case "/hey":
-            content = "Hey!";
+            content = util.RESPONSE_HEY;
             break;
           case "/hell":
-            content = "Hell!";
+            content = util.RESPONSE_HELL;
             break;
           case "/hello":
-            content = "Hello World!";
+            content = util.RESPONSE_HELLO
             break;
           case "/about":
             headers.push("Content-Type: text/html");
-            content = "<html><body>About page</body></html>";
+            content = util.RESPONSE_ABOUT
             break;
           default:
             socket.write("HTTP/1.1 404 Not Found\r\n\r\nNot Found");

@@ -10,21 +10,21 @@ async function start(port) {
   const app = uWS.App();
 
   app.get("/hey", (res) => {
-    res.end("Hey!");
+    res.end(util.RESPONSE_HEY);
   });
   app.get("/hell", (res) => {
-    res.end("Hell!");
+    res.end(util.RESPONSE_HELL);
   });
   app.get("/hello", (res) => {
-    res.end("Hello World!");
+    res.end(util.RESPONSE_HELLO);
   });
   app.get("/about", (res) => {
-    res.end("<html><body>About page</body></html>");
+    res.end(util.RESPONSE_ABOUT);
   });
 
   // Route to handle 404 - Not Found
   app.any("/*", (res) => {
-    res.writeStatus("404 Not Found").end("Not Found");
+    res.writeStatus("404 Not Found").end(util.RESPONSE_NOT_FOUND);
   });
 
   return new Promise((resolve) => {

@@ -13,28 +13,28 @@ function start(port) {
   router
     .get(
       "/hey",
-      h3.eventHandler(() => "Hey!")
+      h3.eventHandler(() => util.RESPONSE_HEY)
     )
     .get(
       "/hell",
-      h3.eventHandler(() => "Hell!")
+      h3.eventHandler(() => util.RESPONSE_HELL)
     )
     .get(
       "/hello",
-      h3.eventHandler(() => "Hello World!")
+      h3.eventHandler(() => util.RESPONSE_HELLO)
     )
     .get(
       "/about",
       h3.eventHandler((event) => {
         h3.setResponseHeader(event, "Content-Type", "text/html");
-        return "<html><body>About page</body></html>";
+        return util.RESPONSE_HELLO
       })
     )
     .get(
       "/*",
       h3.eventHandler((event) => {
         h3.setResponseStatus(event, 404);
-        return "Not Found";
+        return util.RESPONSE_NOT_FOUND;
       })
     );
 
