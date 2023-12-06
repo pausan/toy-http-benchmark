@@ -7,14 +7,14 @@ const os = require("os");
 const util = require("util");
 const { exec } = require("child_process");
 const autocannon = require("autocannon");
-const nativejs = require("./native-nodejs.js");
-const express = require("./express.js");
-const fastify = require("./fastify.js");
-const h3 = require("./h3.js");
-const hyperExpress = require("./hyper-express.js");
-const uwebsocketsExpress = require("./uwebsockets-express.js");
-const uwebsockets = require("./uwebsockets.js");
-const zeroHttp = require("./0http.js");
+const express = require("./libs/express.js");
+const fastify = require("./libs/fastify.js");
+const h3 = require("./libs/h3.js");
+const hyperExpress = require("./libs/hyper-express.js");
+const nativejs = require("./libs/native-nodejs.js");
+const uwebsockets = require("./libs/uwebsockets.js");
+const uwebsocketsExpress = require("./libs/uwebsockets-express.js");
+const zeroHttp = require("./libs/0http.js");
 
 const execAsync = util.promisify(exec);
 
@@ -207,13 +207,13 @@ function generateMarkdownTable(data) {
 async function main() {
   let portIndex = 0;
   const frameworks = [
-    uwebsockets,
-    hyperExpress,
-    uwebsocketsExpress,
-    nativejs,
+    express,
     fastify,
     h3,
-    express,
+    hyperExpress,
+    nativejs,
+    uwebsockets,
+    uwebsocketsExpress,
 
     // disabled due to issues and me not wanting to invest 5 min fixing them
     // zeroHttp
