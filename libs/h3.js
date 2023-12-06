@@ -21,7 +21,7 @@ function start(port) {
     )
     .get(
       "/hello",
-      h3.eventHandler(() => "Hello!")
+      h3.eventHandler(() => "Hello World!")
     )
     .get(
       "/about",

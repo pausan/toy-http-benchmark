@@ -15,7 +15,7 @@ async function start(port) {
       res.end("Hell!");
     } else if (req.url === "/hello") {
       res.writeHead(200);
-      res.end("Hello!");
+      res.end("Hello World!");
     } else if (req.url === "/about") {
       res.writeHead(200);
       res.end("<html><body>About page</body></html>");
@@ -31,7 +31,7 @@ async function start(port) {
 }
 
 module.exports = {
-  name: "native-nodejs",
+  name: "node:http",
   version: process.version,
   start,
 };

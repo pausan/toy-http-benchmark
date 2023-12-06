@@ -11,7 +11,8 @@ const express = require("./libs/express.js");
 const fastify = require("./libs/fastify.js");
 const h3 = require("./libs/h3.js");
 const hyperExpress = require("./libs/hyper-express.js");
-const nativejs = require("./libs/native-nodejs.js");
+const nodeHttp = require("./libs/node-http.js");
+const nodeRawSockets = require("./libs/node-raw-sockets.js");
 const uwebsockets = require("./libs/uwebsockets.js");
 const uwebsocketsExpress = require("./libs/uwebsockets-express.js");
 const zeroHttp = require("./libs/0http.js");
@@ -211,7 +212,8 @@ async function main() {
     fastify,
     h3,
     hyperExpress,
-    nativejs,
+    nodeHttp,
+    nodeRawSockets,
     uwebsockets,
     uwebsocketsExpress,
 
