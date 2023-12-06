@@ -7,6 +7,7 @@ const os = require("os");
 const util = require("util");
 const { exec } = require("child_process");
 const autocannon = require("autocannon");
+const nativejs = require("./native-nodejs.js");
 const express = require("./express.js");
 const fastify = require("./fastify.js");
 const hyperExpress = require("./hyper-express.js");
@@ -25,6 +26,7 @@ const WRK = "wrk";
 const g_testConfig = {
   path: "hello",
   port: 3000,
+  warmup : true,
   connections: 100,
   pipelining: 1,
   duration: 10,
@@ -93,10 +95,11 @@ async function testFramework(loadTestingTool, framework, config) {
   const server = await framework.start(config.port);
 
   // warmup for 1 second
-  await benchmarkUrlWithAutocannon(
-    { ...config, duration: 1 },
-    `http://localhost:${config.port}/${config.path}`
-  );
+  if (config.warmup)
+    await benchmarkUrlWithAutocannon(
+      { ...config, duration: 1 },
+      `http://localhost:${config.port}/${config.path}`
+    );
 
   let result = {};
   switch (loadTestingTool) {
@@ -156,24 +159,36 @@ function getMedalFor(name, array, field, lowerIsBetter) {
 // -----------------------------------------------------------------------------
 function generateMarkdownTable(data) {
   let markdown = [
-    "| Name  | Version | # Errors | Latency (us) | Requests/s | Throughput (MB/s) |",
-    "| :---- | :------ | -------: | -----------: | ---------: | ----------------: |",
+    "| Name  | Version | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |",
+    "| :---- | :------ | -------: | -----------: | ---------: | -----------: | ----------------: |",
   ];
 
-  for (const item of data) {
+  // rank requests
+  const clone = [... data]
+  clone.sort((a, b) => {
+    if (a.requests > b.requests) return -1;
+    if (a.requests < b.requests) return 1;
+    return 0;
+  });
+  const lowestReqPerSec = clone[clone.length-1].requests
+
+  for (const item of clone) {
+    item.speed = item.requests / lowestReqPerSec
+
     markdown.push(
       `
 | ${item.name}
 | ${item.version}
 | ${item.errors}
+| ${getMedalFor(item.name, clone, "speed")} ${item.speed.toFixed(2)}x
+| ${getMedalFor(item.name, clone, "requests")} ${parseInt(item.requests)}
 | ${getMedalFor(
         item.name,
-        data,
+        clone,
         "latency",
         "LOWER_IS_BETTER"
       )} ${item.latency.toFixed(3)}
-| ${getMedalFor(item.name, data, "requests")} ${parseInt(item.requests)}
-| ${getMedalFor(item.name, data, "throughput")} ${(
+| ${getMedalFor(item.name, clone, "throughput")} ${(
         item.throughput / 1e6
       ).toFixed(1)}MB/s
 |`
@@ -194,6 +209,7 @@ async function main() {
     uwebsockets,
     hyperExpress,
     uwebsocketsExpress,
+    nativejs,
     fastify,
     express,
 

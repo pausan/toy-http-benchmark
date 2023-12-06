@@ -3,6 +3,7 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
+const nativejs = require("./native-nodejs.js");
 const express = require("./express.js");
 const fastify = require("./fastify.js");
 const hyperExpress = require("./hyper-express.js");
@@ -17,6 +18,7 @@ async function main() {
   const frameworks = [
     uwebsockets,
     hyperExpress,
+    nativejs,
     uwebsocketsExpress,
     fastify,
     express,

@@ -41,13 +41,14 @@ Configuration:
   Connections:   100
 ```
 
-| Name                | Version |  # Errors |  Latency (us) |  Requests/s |  Throughput (MB/s) |
-| ------------------- | ------- | --------: | ------------: | ----------: | -----------------: |
-| uWebSockets.js      | 20.34.0 |         0 |    🥇 1374.000 |    🥇 187537 |         🥇 16.5MB/s |
-| hyper-express       | 6.14.3  |         0 |    🥈 4034.000 |    🥈 144713 |         🥈 12.7MB/s |
-| uwebsockets-express | 1.3.5   |         0 |    🥉 7988.000 |       30441 |            4.1MB/s |
-| fastify             | 4.24.3  |         0 |     24867.000 |     🥉 33993 |          🥉 6.0MB/s |
-| express             | 4.18.2  |         0 |     57823.000 |        7984 |            1.9MB/s |
+| Name                | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+|---------------------|----------|---------:|-------------:|-----------:|-------------:|------------------:|
+| uWebSockets.js      | 20.34.0  |        0 |       22.09x |  🥇 193214 |  🥇 1120.000 |       🥇 17.0MB/s |
+| hyper-express       | 6.14.3   |        0 |       15.50x |  🥈 135566 |  🥈 1732.000 |       🥈 11.9MB/s |
+| native-nodejs       | v20.10.0 |        0 |        3.95x |   🥉 34557 |    10828.000 |           5.1MB/s |
+| fastify             | 4.24.3   |        0 |        3.61x |      31537 |  🥉 8562.000 |        🥉 5.6MB/s |
+| uwebsockets-express | 1.3.5    |        0 |        3.22x |      28160 |     9488.000 |           3.8MB/s |
+| express             | 4.18.2   |        0 |        1.00x |       8746 |    67060.000 |           2.1MB/s |
 
 ## Manual benchmark with wrk
 

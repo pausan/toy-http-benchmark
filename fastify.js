@@ -38,3 +38,7 @@ module.exports = {
   version: util.getModuleVersion("fastify"),
   start,
 };
+
+if (require.main === module) {
+  start(3000);
+}
