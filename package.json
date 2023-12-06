@@ -1,5 +1,5 @@
 {
-  "name": "http-https-bench",
+  "name": "toy-http-bench",
   "version": "1.0.0",
   "description": "Simple program to test performance of different js HTTP implementations",
   "scripts": {

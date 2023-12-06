@@ -1,4 +1,4 @@
-# Nodejs http/https benchmark
+# Toy http benchmark
 
 Simple HTTP/HTTPS benchmark of different HTTP/HTTPS frameworks
 
