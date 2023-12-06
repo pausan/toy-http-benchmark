@@ -10,6 +10,7 @@ const autocannon = require("autocannon");
 const nativejs = require("./native-nodejs.js");
 const express = require("./express.js");
 const fastify = require("./fastify.js");
+const h3 = require("./h3.js");
 const hyperExpress = require("./hyper-express.js");
 const uwebsocketsExpress = require("./uwebsockets-express.js");
 const uwebsockets = require("./uwebsockets.js");
@@ -26,10 +27,10 @@ const WRK = "wrk";
 const g_testConfig = {
   path: "hello",
   port: 3000,
-  warmup : true,
-  connections: 100,
+  warmup: parseInt(process.env.BENCH_WARMUP || true),
+  connections: parseInt(process.env.BENCH_CONNECTIONS || 100),
   pipelining: 1,
-  duration: 10,
+  duration: parseInt(process.env.BENCH_DURATION || 10),
 };
 
 // -----------------------------------------------------------------------------
@@ -164,16 +165,16 @@ function generateMarkdownTable(data) {
   ];
 
   // rank requests
-  const clone = [... data]
+  const clone = [...data];
   clone.sort((a, b) => {
     if (a.requests > b.requests) return -1;
     if (a.requests < b.requests) return 1;
     return 0;
   });
-  const lowestReqPerSec = clone[clone.length-1].requests
+  const lowestReqPerSec = clone[clone.length - 1].requests;
 
   for (const item of clone) {
-    item.speed = item.requests / lowestReqPerSec
+    item.speed = item.requests / lowestReqPerSec;
 
     markdown.push(
       `
@@ -211,6 +212,7 @@ async function main() {
     uwebsocketsExpress,
     nativejs,
     fastify,
+    h3,
     express,
 
     // disabled due to issues and me not wanting to invest 5 min fixing them
