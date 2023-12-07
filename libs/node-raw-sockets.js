@@ -65,6 +65,8 @@ function start(port) {
     socket.on("error", (error) => {
       if (error.code === "ECONNRESET") {
         // ignoring
+      } else if (error.code === "EPIPE") {
+        // ignoring on purpose
       } else {
         console.error("Socket error:", error);
       }

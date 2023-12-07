@@ -191,11 +191,11 @@ function generateMarkdownTable(data) {
       item.name,
       item.version,
       item.errors,
-      getMedalFor(item.name, clone, "speed") + " " + item.speed.toFixed(2),
+      getMedalFor(item.name, clone, "speed") + " " + item.speed.toFixed(2) + "x",
       getMedalFor(item.name, clone, "requests") + " " + parseInt(item.requests),
       getMedalFor(item.name, clone, "latency", "LOWER_IS_BETTER") +
         " " +
-        item.latency.toFixed(3),
+        parseInt(item.latency),
       `${getMedalFor(item.name, clone, "throughput")} ${(
         item.throughput / 1e6
       ).toFixed(1)}MB/s`
@@ -240,14 +240,18 @@ async function main() {
   console.log("  Connections:  ", g_testConfig.connections);
   console.log(" ");
 
+  await execAsync("docker-compose up -d");
   controller.setup();
 
   const controllers = {
     text: controller.helloText,
     sqlite3: controller.helloSqlite3,
     "better-sqlite3": controller.helloBetterSqlite3,
+    pg: controller.helloPg,
+    postgres: controller.helloPostgres,
   };
 
+  const allResults = [];
   for (const [controllerName, controllerHandler] of Object.entries(
     controllers
   )) {
@@ -261,12 +265,21 @@ async function main() {
         port: 3000 + portIndex,
       });
       results.push(result);
+      allResults.push({
+        ...result,
+        name: `${result.name} (${controllerName})`,
+      });
 
       portIndex++;
     }
 
     console.log(generateMarkdownTable(results) + "\n\n");
   }
+
+  console.log("All:");
+  console.log(generateMarkdownTable(allResults) + "\n\n");
+  controller.shutdown();
+  await execAsync("docker-compose down");
 }
 
 main();
