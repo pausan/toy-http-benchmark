@@ -22,7 +22,7 @@ function start(port) {
     )
     .get(
       "/hello",
-      h3.eventHandler(() => controller.hello())
+      h3.eventHandler(async () => await controller.hello())
     )
     .get(
       "/about",

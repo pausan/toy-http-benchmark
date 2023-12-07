@@ -16,8 +16,19 @@ async function start(port) {
   app.get("/hell", (res) => {
     res.end(util.RESPONSE_HELL);
   });
-  app.get("/hello", (res) => {
-    res.end(controller.hello());
+  app.get("/hello", async (res) => {
+    let isAborted = false;
+    res.onAborted(() => {
+      isAborted = true;
+    });
+
+    const data = await controller.hello();
+
+    if (isAborted) return;
+
+    res.cork(() => {
+      if (!isAborted) res.end(data);
+    });
   });
   app.get("/about", (res) => {
     res.end(util.RESPONSE_ABOUT);

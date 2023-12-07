@@ -7,6 +7,8 @@ const os = require("os");
 const util = require("util");
 const { exec } = require("child_process");
 const autocannon = require("autocannon");
+let markdownTable = null;
+const controller = require("./libs/controller");
 const express = require("./libs/express.js");
 const fastify = require("./libs/fastify.js");
 const h3 = require("./libs/h3.js");
@@ -160,11 +162,7 @@ function getMedalFor(name, array, field, lowerIsBetter) {
 // generateMarkdownTable
 // -----------------------------------------------------------------------------
 function generateMarkdownTable(data) {
-  let markdown = [
-    "| Name  | Version | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |",
-    "| :---- | :------ | -------: | -----------: | ---------: | -----------: | ----------------: |",
-  ];
-
+  const r = (n) => "-".repeat(n);
   // rank requests
   const clone = [...data];
   clone.sort((a, b) => {
@@ -174,32 +172,40 @@ function generateMarkdownTable(data) {
   });
   const lowestReqPerSec = clone[clone.length - 1].requests;
 
+  const table = [
+    [
+      "Name",
+      "Version",
+      "# Errors",
+      "Speed Factor",
+      "Requests/s",
+      "Latency (us)",
+      "Throughput (MB/s)",
+    ],
+  ];
+
   for (const item of clone) {
     item.speed = item.requests / lowestReqPerSec;
 
-    markdown.push(
-      `
-| ${item.name}
-| ${item.version}
-| ${item.errors}
-| ${getMedalFor(item.name, clone, "speed")} ${item.speed.toFixed(2)}x
-| ${getMedalFor(item.name, clone, "requests")} ${parseInt(item.requests)}
-| ${getMedalFor(
-        item.name,
-        clone,
-        "latency",
-        "LOWER_IS_BETTER"
-      )} ${item.latency.toFixed(3)}
-| ${getMedalFor(item.name, clone, "throughput")} ${(
+    const row = [
+      item.name,
+      item.version,
+      item.errors,
+      getMedalFor(item.name, clone, "speed") + " " + item.speed.toFixed(2),
+      getMedalFor(item.name, clone, "requests") + " " + parseInt(item.requests),
+      getMedalFor(item.name, clone, "latency", "LOWER_IS_BETTER") +
+        " " +
+        item.latency.toFixed(3),
+      `${getMedalFor(item.name, clone, "throughput")} ${(
         item.throughput / 1e6
-      ).toFixed(1)}MB/s
-|`
+      ).toFixed(1)}MB/s`
         .replace(/\n/g, " ")
-        .replace(/^\s*/, "")
-    );
+        .replace(/^\s*/, ""),
+    ];
+    table.push(row);
   }
 
-  return markdown.join("\n");
+  return markdownTable(table, { align: ["l", "l", "r", "r", "r", "r", "r"] });
 }
 
 // -----------------------------------------------------------------------------
@@ -221,18 +227,9 @@ async function main() {
     // zeroHttp
   ];
 
-  const results = [];
-  for (const framework of frameworks) {
-    console.log(`Testing ${framework.name}...`);
-
-    const result = await testFramework(WRK, framework, {
-      ...g_testConfig,
-      port: 3000 + portIndex,
-    });
-    results.push(result);
-
-    portIndex++;
-  }
+  // hack to load ESM module
+  const markdownTableModule = await import("markdown-table");
+  markdownTable = markdownTableModule.markdownTable;
 
   console.log(" ");
   console.log("Configuration: ");
@@ -242,7 +239,34 @@ async function main() {
   console.log("  Duration:     ", g_testConfig.duration, "s");
   console.log("  Connections:  ", g_testConfig.connections);
   console.log(" ");
-  console.log(generateMarkdownTable(results));
+
+  controller.setup();
+
+  const controllers = {
+    text: controller.helloText,
+    sqlite3: controller.helloSqlite3,
+    "better-sqlite3": controller.helloBetterSqlite3,
+  };
+
+  for (const [controllerName, controllerHandler] of Object.entries(
+    controllers
+  )) {
+    controller.hello = controllerHandler;
+    const results = [];
+    for (const framework of frameworks) {
+      console.error(`Testing ${framework.name} (${controllerName})...`);
+
+      const result = await testFramework(WRK, framework, {
+        ...g_testConfig,
+        port: 3000 + portIndex,
+      });
+      results.push(result);
+
+      portIndex++;
+    }
+
+    console.log(generateMarkdownTable(results) + "\n\n");
+  }
 }
 
 main();

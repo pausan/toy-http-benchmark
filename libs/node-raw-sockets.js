@@ -16,7 +16,7 @@ function start(port) {
   const server = net.createServer((socket) => {
     socket.setEncoding("utf-8");
 
-    socket.on("data", (data) => {
+    socket.on("data", async (data) => {
       const request = data.toString();
       const requestData = request.split("\r\n");
 
@@ -33,7 +33,7 @@ function start(port) {
             content = util.RESPONSE_HELL;
             break;
           case "/hello":
-            content = controller.hello();
+            content = await controller.hello();
             break;
           case "/about":
             headers.push("Content-Type: text/html");

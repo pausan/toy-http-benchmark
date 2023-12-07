@@ -16,7 +16,7 @@ async function start(port) {
     return util.RESPONSE_HELL;
   });
   router.get("/hello", async (request, reply) => {
-    return controller.hello();
+    return await controller.hello();
   });
   router.get("/about", async (request, reply) => {
     reply.type("text/html").send(util.RESPONSE_ABOUT);

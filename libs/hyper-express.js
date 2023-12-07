@@ -16,8 +16,8 @@ async function start(port) {
   webserver.get("/hel", (req, res) => {
     res.send(util.RESPONSE_HELL);
   });
-  webserver.get("/hello", (req, res) => {
-    res.send(controller.hello());
+  webserver.get("/hello", async (req, res) => {
+    res.send(await controller.hello());
   });
   webserver.get("/about", (req, res) => {
     res.header("Content-Type", "text/html").send(util.RESPONSE_ABOUT);

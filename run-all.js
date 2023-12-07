@@ -3,6 +3,7 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
+const controller = require("./libs/controller.js");
 const express = require("./libs/express.js");
 const fastify = require("./libs/fastify.js");
 const h3 = require("./libs/h3.js");
@@ -30,6 +31,11 @@ async function main() {
     // disabled due to issues and me not wanting to invest 5 min fixing them
     // zeroHttp
   ];
+
+  controller.setup();
+
+  // just a sample
+  // controller.hello = controller.helloBetterSqlite3;
 
   const servers = [];
   let port = 3000;

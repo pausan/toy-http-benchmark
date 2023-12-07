@@ -18,8 +18,8 @@ async function start(port) {
   app.get("/hell", (req, res) => {
     res.send(util.RESPONSE_HELL);
   });
-  app.get("/hello", (req, res) => {
-    res.send(controller.hello());
+  app.get("/hello", async (req, res) => {
+    res.send(await controller.hello());
   });
   app.get("/about", (req, res) => {
     res.send(util.RESPONSE_ABOUT);
