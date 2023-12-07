@@ -3,6 +3,7 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
+const controller = require("./controller");
 const util = require("./util");
 const fastify = require("fastify");
 
@@ -15,7 +16,7 @@ async function start(port) {
     return util.RESPONSE_HELL;
   });
   server.get("/hello", async (request, reply) => {
-    return util.RESPONSE_HELLO;
+    return controller.hello();
   });
   server.get("/about", async (request, reply) => {
     reply.type("text/html").send(util.RESPONSE_ABOUT);

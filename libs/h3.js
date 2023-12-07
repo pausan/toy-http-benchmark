@@ -3,6 +3,7 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
+const controller = require("./controller");
 const util = require("./util");
 const http = require("http");
 const h3 = require("h3");
@@ -21,13 +22,13 @@ function start(port) {
     )
     .get(
       "/hello",
-      h3.eventHandler(() => util.RESPONSE_HELLO)
+      h3.eventHandler(() => controller.hello())
     )
     .get(
       "/about",
       h3.eventHandler((event) => {
         h3.setResponseHeader(event, "Content-Type", "text/html");
-        return util.RESPONSE_HELLO
+        return util.RESPONSE_HELLO;
       })
     )
     .get(

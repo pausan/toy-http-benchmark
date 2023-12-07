@@ -8,8 +8,9 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
-const net = require("net");
+const controller = require("./controller");
 const util = require("./util");
+const net = require("net");
 
 function start(port) {
   const server = net.createServer((socket) => {
@@ -32,11 +33,11 @@ function start(port) {
             content = util.RESPONSE_HELL;
             break;
           case "/hello":
-            content = util.RESPONSE_HELLO
+            content = controller.hello();
             break;
           case "/about":
             headers.push("Content-Type: text/html");
-            content = util.RESPONSE_ABOUT
+            content = util.RESPONSE_ABOUT;
             break;
           default:
             socket.write("HTTP/1.1 404 Not Found\r\n\r\nNot Found");

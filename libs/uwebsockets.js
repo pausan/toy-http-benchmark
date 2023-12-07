@@ -3,6 +3,7 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
+const controller = require("./controller");
 const util = require("./util");
 const uWS = require("uWebSockets.js");
 
@@ -16,7 +17,7 @@ async function start(port) {
     res.end(util.RESPONSE_HELL);
   });
   app.get("/hello", (res) => {
-    res.end(util.RESPONSE_HELLO);
+    res.end(controller.hello());
   });
   app.get("/about", (res) => {
     res.end(util.RESPONSE_ABOUT);

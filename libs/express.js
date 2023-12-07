@@ -3,8 +3,9 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
-const express = require("express");
+const controller = require("./controller");
 const util = require("./util");
+const express = require("express");
 
 async function start(port) {
   const app = express();
@@ -16,7 +17,7 @@ async function start(port) {
     res.send(util.RESPONSE_HELL);
   });
   app.get("/hello", (req, res) => {
-    res.send(util.RESPONSE_HELLO);
+    res.send(controller.hello());
   });
   app.get("/about", (req, res) => {
     res.send(util.RESPONSE_ABOUT);

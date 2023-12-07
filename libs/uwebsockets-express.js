@@ -3,6 +3,7 @@
 //
 // MIT License
 // -----------------------------------------------------------------------------
+const controller = require("./controller");
 const util = require("./util");
 const uWS = require("uWebSockets.js");
 const expressify = require("uwebsockets-express").default;
@@ -12,13 +13,13 @@ async function start(port) {
   const app = expressify(uwsApp);
 
   app.get("/hey", (req, res) => {
-    res.send(util.RESPONSE_HEY)
+    res.send(util.RESPONSE_HEY);
   });
   app.get("/hell", (req, res) => {
-    res.send(util.RESPONSE_HELL)
+    res.send(util.RESPONSE_HELL);
   });
   app.get("/hello", (req, res) => {
-    res.send(util.RESPONSE_HELLO)
+    res.send(controller.hello());
   });
   app.get("/about", (req, res) => {
     res.send(util.RESPONSE_ABOUT);
