@@ -170,13 +170,16 @@ function generateMarkdownTable(data) {
     if (a.requests < b.requests) return 1;
     return 0;
   });
-  const lowestReqPerSec = clone[clone.length - 1].requests;
+
+  // const nodeHttp = clone.find((x) => x.name == 'node:http')
+  // const referenceReqPerSec = (nodeHttp || clone[clone.length - 1]).requests;
+  const referenceReqPerSec = clone[clone.length - 1].requests;
 
   const table = [
     [
       "Name",
       "Version",
-      "# Errors",
+      // "Errors",
       "Speed Factor",
       "Requests/s",
       "Latency (us)",
@@ -185,12 +188,12 @@ function generateMarkdownTable(data) {
   ];
 
   for (const item of clone) {
-    item.speed = item.requests / lowestReqPerSec;
+    item.speed = item.requests / referenceReqPerSec;
 
     const row = [
       item.name,
       item.version,
-      item.errors,
+      // item.errors,
       getMedalFor(item.name, clone, "speed") + " " + item.speed.toFixed(2) + "x",
       getMedalFor(item.name, clone, "requests") + " " + parseInt(item.requests),
       getMedalFor(item.name, clone, "latency", "LOWER_IS_BETTER") +
@@ -241,6 +244,7 @@ async function main() {
   console.log(" ");
 
   await execAsync("docker-compose up -d");
+  await new Promise((x) => setTimeout(x, 3000)) // wait for pg to start
   controller.setup();
 
   const controllers = {
@@ -255,6 +259,9 @@ async function main() {
   for (const [controllerName, controllerHandler] of Object.entries(
     controllers
   )) {
+    if (process.env.BENCH_FILTER && !controllerName.includes(process.env.BENCH_FILTER))
+      continue;
+
     controller.hello = controllerHandler;
     const results = [];
     for (const framework of frameworks) {
