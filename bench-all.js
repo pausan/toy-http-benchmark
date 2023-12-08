@@ -4,10 +4,10 @@
 // MIT License
 // -----------------------------------------------------------------------------
 const os = require("os");
+const fs = require("fs");
 const util = require("util");
 const { exec } = require("child_process");
 const autocannon = require("autocannon");
-let markdownTable = null;
 const controller = require("./libs/controller");
 const express = require("./libs/express.js");
 const fastify = require("./libs/fastify.js");
@@ -18,6 +18,7 @@ const nodeRawSockets = require("./libs/node-raw-sockets.js");
 const uwebsockets = require("./libs/uwebsockets.js");
 const uwebsocketsExpress = require("./libs/uwebsockets-express.js");
 const zeroHttp = require("./libs/0http.js");
+const libUtil = require("./libs/util.js");
 
 const execAsync = util.promisify(exec);
 
@@ -132,86 +133,6 @@ async function testFramework(loadTestingTool, framework, config) {
 }
 
 // -----------------------------------------------------------------------------
-// getMedalFor
-//
-// >>> getMedalFor('uWebSockets.js', [ { ... } ], 'requests')
-// 🥇
-// -----------------------------------------------------------------------------
-function getMedalFor(name, array, field, lowerIsBetter) {
-  const gold = "🥇";
-  const silver = "🥈";
-  const bronze = "🥉";
-
-  const clone = [...array];
-
-  clone.sort((a, b) => {
-    if (a[field] < b[field]) return -1;
-    if (a[field] > b[field]) return 1;
-    return 0;
-  });
-
-  if (lowerIsBetter !== "LOWER_IS_BETTER") clone.reverse();
-
-  if (clone[0].name === name) return gold;
-  if (clone[1].name === name) return silver;
-  if (clone[2].name === name) return bronze;
-  return "";
-}
-
-// -----------------------------------------------------------------------------
-// generateMarkdownTable
-// -----------------------------------------------------------------------------
-function generateMarkdownTable(data) {
-  const r = (n) => "-".repeat(n);
-  // rank requests
-  const clone = [...data];
-  clone.sort((a, b) => {
-    if (a.requests > b.requests) return -1;
-    if (a.requests < b.requests) return 1;
-    return 0;
-  });
-
-  // const nodeHttp = clone.find((x) => x.name == 'node:http')
-  // const referenceReqPerSec = (nodeHttp || clone[clone.length - 1]).requests;
-  const referenceReqPerSec = clone[clone.length - 1].requests;
-
-  const table = [
-    [
-      "Name",
-      "Version",
-      // "Errors",
-      "Speed Factor",
-      "Requests/s",
-      "Latency (us)",
-      "Throughput (MB/s)",
-    ],
-  ];
-
-  for (const item of clone) {
-    item.speed = item.requests / referenceReqPerSec;
-
-    const row = [
-      item.name,
-      item.version,
-      // item.errors,
-      getMedalFor(item.name, clone, "speed") + " " + item.speed.toFixed(2) + "x",
-      getMedalFor(item.name, clone, "requests") + " " + parseInt(item.requests),
-      getMedalFor(item.name, clone, "latency", "LOWER_IS_BETTER") +
-        " " +
-        parseInt(item.latency),
-      `${getMedalFor(item.name, clone, "throughput")} ${(
-        item.throughput / 1e6
-      ).toFixed(1)}MB/s`
-        .replace(/\n/g, " ")
-        .replace(/^\s*/, ""),
-    ];
-    table.push(row);
-  }
-
-  return markdownTable(table, { align: ["l", "l", "r", "r", "r", "r", "r"] });
-}
-
-// -----------------------------------------------------------------------------
 // main
 // -----------------------------------------------------------------------------
 async function main() {
@@ -230,10 +151,6 @@ async function main() {
     // zeroHttp
   ];
 
-  // hack to load ESM module
-  const markdownTableModule = await import("markdown-table");
-  markdownTable = markdownTableModule.markdownTable;
-
   console.log(" ");
   console.log("Configuration: ");
   console.log("  Node Version: ", process.version);
@@ -242,6 +159,8 @@ async function main() {
   console.log("  Duration:     ", g_testConfig.duration, "s");
   console.log("  Connections:  ", g_testConfig.connections);
   console.log(" ");
+
+  await libUtil.setup()
 
   await execAsync("docker-compose up -d");
   await new Promise((x) => setTimeout(x, 3000)) // wait for pg to start
@@ -271,6 +190,7 @@ async function main() {
         ...g_testConfig,
         port: 3000 + portIndex,
       });
+      result.handler = controllerName;
       results.push(result);
       allResults.push({
         ...result,
@@ -280,13 +200,19 @@ async function main() {
       portIndex++;
     }
 
-    console.log(generateMarkdownTable(results) + "\n\n");
+    console.log(libUtil.generateMarkdownTable(results) + "\n\n");
   }
 
   console.log("All:");
-  console.log(generateMarkdownTable(allResults) + "\n\n");
+  console.log(libUtil.generateMarkdownTable(allResults) + "\n\n");
   controller.shutdown();
   await execAsync("docker-compose down");
+
+  // save output
+  fs.writeFileSync(
+    'last-result.json',
+    JSON.stringify(allResults, null, 2)
+  )
 }
 
 main();

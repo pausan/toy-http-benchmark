@@ -25,8 +25,8 @@ function setup() {
 
   const connectionString = "postgresql://pguser:pgpass@127.0.0.1:5432/pgdb";
 
-  _pgPool = new pg.Pool({ connectionString });
-  _postgres = postgres(connectionString);
+  _pgPool = new pg.Pool({ connectionString, max: 10 });
+  _postgres = postgres(connectionString, { max: 10 });
 }
 
 // -----------------------------------------------------------------------------

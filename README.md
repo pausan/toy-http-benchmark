@@ -41,115 +41,116 @@ Configuration:
   Connections:   100
 ```
 
-### Plain Text Benchmark
+### text Benchmark
 
-| Name                | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
-| :------------------ | :------- | -------: | -----------: | ---------: | -----------: | ----------------: |
-| uWebSockets.js      | 20.34.0  |        0 |       15.64x |  🥇 132755 |      🥇 2131 |       🥇 10.8MB/s |
-| hyper-express       | 6.14.3   |        0 |       12.93x |  🥈 109769 |      🥈 2666 |        🥈 8.9MB/s |
-| node:net            | v20.10.0 |        0 |        6.98x |   🥉 59267 |      🥉 5099 |           4.0MB/s |
-| h3                  | 1.9.0    |        0 |        3.72x |      31557 |        17590 |           4.8MB/s |
-| fastify             | 4.24.3   |        0 |        3.42x |      28987 |        58021 |        🥉 4.9MB/s |
-| node:http           | v20.10.0 |        0 |        3.41x |      28957 |         9892 |           4.3MB/s |
-| uwebsockets-express | 1.3.5    |        0 |        3.10x |      26297 |        11781 |           3.4MB/s |
-| express             | 4.18.2   |        0 |        1.00x |       8486 |       594846 |           2.0MB/s |
+| Name                       | Version  | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+| :------------------------- | :------- | -----------: | ---------: | -----------: | ----------------: |
+| uWebSockets.js (text)      | 20.34.0  |    🥉 15.01x |  🥇 126570 |      🥇 1757 |       🥇 10.3MB/s |
+| hyper-express (text)       | 6.14.3   |    🥉 13.74x |  🥈 115843 |      🥈 2536 |        🥈 9.4MB/s |
+| node:net (text)            | v20.10.0 |        7.58x |   🥉 63902 |      🥉 4661 |           4.3MB/s |
+| h3 (text)                  | 1.9.0    |        4.37x |      36862 |        13829 |        🥉 5.6MB/s |
+| node:http (text)           | v20.10.0 |        3.71x |      31280 |         6416 |           4.6MB/s |
+| fastify (text)             | 4.24.3   |        3.49x |      29413 |        70842 |           5.0MB/s |
+| uwebsockets-express (text) | 1.3.5    |        3.13x |      26400 |        12603 |           3.4MB/s |
+| express (text)             | 4.18.2   |        1.00x |       8430 |       360050 |           2.0MB/s |
 
 ### sqlite3 Benchmark
 
-| Name                | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
-| :------------------ | :------- | -------: | -----------: | ---------: | -----------: | ----------------: |
-| uWebSockets.js      | 20.34.0  |        0 |        6.09x |   🥇 39451 |      🥇 9071 |        🥇 3.2MB/s |
-| hyper-express       | 6.14.3   |        0 |        5.17x |   🥈 33509 |     🥈 10536 |           2.7MB/s |
-| node:net            | v20.10.0 |        0 |        4.61x |   🥉 29918 |        14907 |           2.0MB/s |
-| h3                  | 1.9.0    |        0 |        2.81x |      18229 |        20919 |        🥈 2.8MB/s |
-| node:http           | v20.10.0 |        0 |        2.67x |      17302 |     🥉 12425 |           2.5MB/s |
-| fastify             | 4.24.3   |        0 |        2.49x |      16148 |        19292 |        🥉 2.7MB/s |
-| uwebsockets-express | 1.3.5    |        0 |        2.46x |      15925 |        12490 |           2.1MB/s |
-| express             | 4.18.2   |        0 |        1.00x |       6482 |        54246 |           1.5MB/s |
+| Name                          | Version  | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+| :---------------------------- | :------- | -----------: | ---------: | -----------: | ----------------: |
+| uWebSockets.js (sqlite3)      | 20.34.0  |     🥉 6.04x |   🥇 40411 |      🥇 8510 |        🥇 3.3MB/s |
+| hyper-express (sqlite3)       | 6.14.3   |     🥉 5.51x |   🥈 36875 |        10287 |        🥈 3.0MB/s |
+| node:net (sqlite3)            | v20.10.0 |     🥉 4.63x |   🥉 30986 |      🥈 8601 |           2.1MB/s |
+| node:http (sqlite3)           | v20.10.0 |        2.76x |      18495 |      🥉 9790 |           2.7MB/s |
+| h3 (sqlite3)                  | 1.9.0    |        2.74x |      18304 |        14978 |           2.8MB/s |
+| uwebsockets-express (sqlite3) | 1.3.5    |        2.62x |      17512 |        13380 |           2.3MB/s |
+| fastify (sqlite3)             | 4.24.3   |        2.46x |      16486 |        18263 |        🥉 2.8MB/s |
+| express (sqlite3)             | 4.18.2   |        1.00x |       6689 |        50388 |           1.6MB/s |
 
 ### better-sqlite3 Benchmark
 
-| Name                | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
-| :------------------ | :------- | -------: | -----------: | ---------: | -----------: | ----------------: |
-| uWebSockets.js      | 20.34.0  |        0 |        6.67x |   🥇 48163 |        13970 |        🥇 3.9MB/s |
-| hyper-express       | 6.14.3   |        0 |        6.04x |   🥈 43616 |      🥇 9742 |        🥈 3.5MB/s |
-| node:net            | v20.10.0 |        0 |        4.80x |   🥉 34658 |     🥈 11475 |           2.4MB/s |
-| h3                  | 1.9.0    |        0 |        3.08x |      22198 |        29834 |        🥉 3.4MB/s |
-| node:http           | v20.10.0 |        0 |        2.88x |      20807 |        21040 |           3.1MB/s |
-| uwebsockets-express | 1.3.5    |        0 |        2.72x |      19632 |     🥉 12602 |           2.5MB/s |
-| fastify             | 4.24.3   |        0 |        2.50x |      18050 |        18860 |           3.1MB/s |
-| express             | 4.18.2   |        0 |        1.00x |       7217 |       167008 |           1.7MB/s |
+| Name                                 | Version  | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+| :----------------------------------- | :------- | -----------: | ---------: | -----------: | ----------------: |
+| uWebSockets.js (better-sqlite3)      | 20.34.0  |     🥉 6.73x |   🥇 48935 |        15277 |        🥇 4.0MB/s |
+| hyper-express (better-sqlite3)       | 6.14.3   |     🥉 6.34x |   🥈 46119 |      🥇 8226 |        🥈 3.7MB/s |
+| node:net (better-sqlite3)            | v20.10.0 |        4.59x |   🥉 33389 |     🥈 10797 |           2.3MB/s |
+| h3 (better-sqlite3)                  | 1.9.0    |        3.15x |      22930 |        15645 |        🥉 3.5MB/s |
+| node:http (better-sqlite3)           | v20.10.0 |        2.87x |      20858 |        14192 |           3.1MB/s |
+| uwebsockets-express (better-sqlite3) | 1.3.5    |        2.67x |      19418 |     🥉 13199 |           2.5MB/s |
+| fastify (better-sqlite3)             | 4.24.3   |        2.66x |      19332 |        27549 |           3.3MB/s |
+| express (better-sqlite3)             | 4.18.2   |        1.00x |       7269 |       132325 |           1.7MB/s |
 
 ### pg Benchmark
 
-| Name                | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
-| :------------------ | :------- | -------: | -----------: | ---------: | -----------: | ----------------: |
-| uWebSockets.js      | 20.34.0  |        0 |        3.82x |   🥇 20275 |      🥈 8831 |           1.6MB/s |
-| hyper-express       | 6.14.3   |        0 |        3.57x |   🥈 18979 |     🥉 10075 |           1.5MB/s |
-| node:net            | v20.10.0 |        0 |        3.50x |   🥉 18580 |      🥇 7775 |           1.3MB/s |
-| node:http           | v20.10.0 |        0 |        2.53x |      13424 |        10908 |        🥈 2.0MB/s |
-| fastify             | 4.24.3   |        0 |        2.41x |      12795 |        18839 |        🥇 2.2MB/s |
-| uwebsockets-express | 1.3.5    |        0 |        2.26x |      12015 |        20580 |           1.5MB/s |
-| h3                  | 1.9.0    |        0 |        2.23x |      11851 |        19783 |        🥉 1.8MB/s |
-| express             | 4.18.2   |        0 |        1.00x |       5313 |        48518 |           1.2MB/s |
+| Name                     | Version  | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+| :----------------------- | :------- | -----------: | ---------: | -----------: | ----------------: |
+| uWebSockets.js (pg)      | 20.34.0  |     🥉 3.75x |   🥇 19875 |        16176 |           1.6MB/s |
+| hyper-express (pg)       | 6.14.3   |     🥉 3.59x |   🥈 19047 |        17640 |           1.5MB/s |
+| node:net (pg)            | v20.10.0 |     🥉 3.45x |   🥉 18326 |      🥇 8595 |           1.2MB/s |
+| node:http (pg)           | v20.10.0 |        2.58x |      13696 |      🥈 9787 |        🥈 2.0MB/s |
+| h3 (pg)                  | 1.9.0    |        2.44x |      12924 |        11330 |        🥉 2.0MB/s |
+| fastify (pg)             | 4.24.3   |        2.41x |      12796 |     🥉 10880 |        🥇 2.2MB/s |
+| uwebsockets-express (pg) | 1.3.5    |        2.28x |      12123 |        15687 |           1.6MB/s |
+| express (pg)             | 4.18.2   |        1.00x |       5306 |        55945 |           1.2MB/s |
 
 ### postgres Benchmark
 
-| Name                | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
-| :------------------ | :------- | -------: | -----------: | ---------: | -----------: | ----------------: |
-| fastify             | 4.24.3   |        0 |        2.44x |   🥇 10595 |     🥉 28510 |        🥇 1.8MB/s |
-| hyper-express       | 6.14.3   |        0 |        1.98x |    🥈 8614 |     🥇 19785 |           0.7MB/s |
-| h3                  | 1.9.0    |        0 |        1.91x |    🥉 8289 |        36571 |        🥉 1.3MB/s |
-| express             | 4.18.2   |        0 |        1.53x |       6625 |        62365 |        🥈 1.5MB/s |
-| node:net            | v20.10.0 |        0 |        1.40x |       6072 |        31817 |           0.4MB/s |
-| node:http           | v20.10.0 |        0 |        1.30x |       5660 |        40800 |           0.8MB/s |
-| uWebSockets.js      | 20.34.0  |        0 |        1.30x |       5639 |     🥈 27751 |           0.5MB/s |
-| uwebsockets-express | 1.3.5    |        0 |        1.00x |       4344 |        37528 |           0.6MB/s |
+| Name                           | Version  | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+| :----------------------------- | :------- | -----------: | ---------: | -----------: | ----------------: |
+| fastify (postgres)             | 4.24.3   |     🥇 2.68x |   🥇 10773 |     🥇 18369 |        🥇 1.8MB/s |
+| hyper-express (postgres)       | 6.14.3   |     🥈 2.06x |    🥈 8280 |     🥈 23147 |           0.7MB/s |
+| h3 (postgres)                  | 1.9.0    |     🥉 2.02x |    🥉 8124 |     🥉 30350 |        🥉 1.2MB/s |
+| express (postgres)             | 4.18.2   |        1.62x |       6506 |        61387 |        🥈 1.5MB/s |
+| node:net (postgres)            | v20.10.0 |        1.47x |       5889 |        36418 |           0.4MB/s |
+| node:http (postgres)           | v20.10.0 |        1.42x |       5701 |        32438 |           0.8MB/s |
+| uWebSockets.js (postgres)      | 20.34.0  |        1.37x |       5516 |        31355 |           0.4MB/s |
+| uwebsockets-express (postgres) | 1.3.5    |        1.00x |       4019 |        50172 |           0.5MB/s |
 
 ### All Benchmarks
 
-| Name                                 | Version  | # Errors | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
-| :----------------------------------- | :------- | -------: | -----------: | ---------: | -----------: | ----------------: |
-| uWebSockets.js (text)                | 20.34.0  |        0 |       30.56x |  🥇 132755 |      🥇 2131 |       🥇 10.8MB/s |
-| hyper-express (text)                 | 6.14.3   |        0 |       25.26x |  🥈 109769 |      🥈 2666 |        🥈 8.9MB/s |
-| node:net (text)                      | v20.10.0 |        0 |       13.64x |   🥉 59267 |      🥉 5099 |           4.0MB/s |
-| uWebSockets.js (better-sqlite3)      | 20.34.0  |        0 |       11.09x |      48163 |        13970 |           3.9MB/s |
-| hyper-express (better-sqlite3)       | 6.14.3   |        0 |       10.04x |      43616 |         9742 |           3.5MB/s |
-| uWebSockets.js (sqlite3)             | 20.34.0  |        0 |        9.08x |      39451 |         9071 |           3.2MB/s |
-| node:net (better-sqlite3)            | v20.10.0 |        0 |        7.98x |      34658 |        11475 |           2.4MB/s |
-| hyper-express (sqlite3)              | 6.14.3   |        0 |        7.71x |      33509 |        10536 |           2.7MB/s |
-| h3 (text)                            | 1.9.0    |        0 |        7.26x |      31557 |        17590 |           4.8MB/s |
-| node:net (sqlite3)                   | v20.10.0 |        0 |        6.89x |      29918 |        14907 |           2.0MB/s |
-| fastify (text)                       | 4.24.3   |        0 |        6.67x |      28987 |        58021 |        🥉 4.9MB/s |
-| node:http (text)                     | v20.10.0 |        0 |        6.66x |      28957 |         9892 |           4.3MB/s |
-| uwebsockets-express (text)           | 1.3.5    |        0 |        6.05x |      26297 |        11781 |           3.4MB/s |
-| h3 (better-sqlite3)                  | 1.9.0    |        0 |        5.11x |      22198 |        29834 |           3.4MB/s |
-| node:http (better-sqlite3)           | v20.10.0 |        0 |        4.79x |      20807 |        21040 |           3.1MB/s |
-| uWebSockets.js (pg)                  | 20.34.0  |        0 |        4.67x |      20275 |         8831 |           1.6MB/s |
-| uwebsockets-express (better-sqlite3) | 1.3.5    |        0 |        4.52x |      19632 |        12602 |           2.5MB/s |
-| hyper-express (pg)                   | 6.14.3   |        0 |        4.37x |      18979 |        10075 |           1.5MB/s |
-| node:net (pg)                        | v20.10.0 |        0 |        4.28x |      18580 |         7775 |           1.3MB/s |
-| h3 (sqlite3)                         | 1.9.0    |        0 |        4.20x |      18229 |        20919 |           2.8MB/s |
-| fastify (better-sqlite3)             | 4.24.3   |        0 |        4.15x |      18050 |        18860 |           3.1MB/s |
-| node:http (sqlite3)                  | v20.10.0 |        0 |        3.98x |      17302 |        12425 |           2.5MB/s |
-| fastify (sqlite3)                    | 4.24.3   |        0 |        3.72x |      16148 |        19292 |           2.7MB/s |
-| uwebsockets-express (sqlite3)        | 1.3.5    |        0 |        3.67x |      15925 |        12490 |           2.1MB/s |
-| node:http (pg)                       | v20.10.0 |        0 |        3.09x |      13424 |        10908 |           2.0MB/s |
-| fastify (pg)                         | 4.24.3   |        0 |        2.94x |      12795 |        18839 |           2.2MB/s |
-| uwebsockets-express (pg)             | 1.3.5    |        0 |        2.77x |      12015 |        20580 |           1.5MB/s |
-| h3 (pg)                              | 1.9.0    |        0 |        2.73x |      11851 |        19783 |           1.8MB/s |
-| fastify (postgres)                   | 4.24.3   |        0 |        2.44x |      10595 |        28510 |           1.8MB/s |
-| hyper-express (postgres)             | 6.14.3   |        0 |        1.98x |       8614 |        19785 |           0.7MB/s |
-| express (text)                       | 4.18.2   |        0 |        1.95x |       8486 |       594846 |           2.0MB/s |
-| h3 (postgres)                        | 1.9.0    |        0 |        1.91x |       8289 |        36571 |           1.3MB/s |
-| express (better-sqlite3)             | 4.18.2   |        0 |        1.66x |       7217 |       167008 |           1.7MB/s |
-| express (postgres)                   | 4.18.2   |        0 |        1.53x |       6625 |        62365 |           1.5MB/s |
-| express (sqlite3)                    | 4.18.2   |        0 |        1.49x |       6482 |        54246 |           1.5MB/s |
-| node:net (postgres)                  | v20.10.0 |        0 |        1.40x |       6072 |        31817 |           0.4MB/s |
-| node:http (postgres)                 | v20.10.0 |        0 |        1.30x |       5660 |        40800 |           0.8MB/s |
-| uWebSockets.js (postgres)            | 20.34.0  |        0 |        1.30x |       5639 |        27751 |           0.5MB/s |
-| express (pg)                         | 4.18.2   |        0 |        1.22x |       5313 |        48518 |           1.2MB/s |
-| uwebsockets-express (postgres)       | 1.3.5    |        0 |        1.00x |       4344 |        37528 |           0.6MB/s |
+| Name                                 | Version  | Speed Factor | Requests/s | Latency (us) | Throughput (MB/s) |
+| :----------------------------------- | :------- | -----------: | ---------: | -----------: | ----------------: |
+| uWebSockets.js (text)                | 20.34.0  |    🥇 31.49x |  🥇 126570 |      🥇 1757 |       🥇 10.3MB/s |
+| hyper-express (text)                 | 6.14.3   |    🥈 28.82x |  🥈 115843 |      🥈 2536 |        🥈 9.4MB/s |
+| node:net (text)                      | v20.10.0 |    🥉 15.90x |   🥉 63902 |      🥉 4661 |           4.3MB/s |
+| uWebSockets.js (better-sqlite3)      | 20.34.0  |       12.17x |      48935 |        15277 |           4.0MB/s |
+| hyper-express (better-sqlite3)       | 6.14.3   |       11.47x |      46119 |         8226 |           3.7MB/s |
+| uWebSockets.js (sqlite3)             | 20.34.0  |       10.05x |      40411 |         8510 |           3.3MB/s |
+| hyper-express (sqlite3)              | 6.14.3   |        9.17x |      36875 |        10287 |           3.0MB/s |
+| h3 (text)                            | 1.9.0    |        9.17x |      36862 |        13829 |        🥉 5.6MB/s |
+| node:net (better-sqlite3)            | v20.10.0 |        8.31x |      33389 |        10797 |           2.3MB/s |
+| node:http (text)                     | v20.10.0 |        7.78x |      31280 |         6416 |           4.6MB/s |
+| node:net (sqlite3)                   | v20.10.0 |        7.71x |      30986 |         8601 |           2.1MB/s |
+| fastify (text)                       | 4.24.3   |        7.32x |      29413 |        70842 |           5.0MB/s |
+| uwebsockets-express (text)           | 1.3.5    |        6.57x |      26400 |        12603 |           3.4MB/s |
+| h3 (better-sqlite3)                  | 1.9.0    |        5.70x |      22930 |        15645 |           3.5MB/s |
+| node:http (better-sqlite3)           | v20.10.0 |        5.19x |      20858 |        14192 |           3.1MB/s |
+| uWebSockets.js (pg)                  | 20.34.0  |        4.94x |      19875 |        16176 |           1.6MB/s |
+| uwebsockets-express (better-sqlite3) | 1.3.5    |        4.83x |      19418 |        13199 |           2.5MB/s |
+| fastify (better-sqlite3)             | 4.24.3   |        4.81x |      19332 |        27549 |           3.3MB/s |
+| hyper-express (pg)                   | 6.14.3   |        4.74x |      19047 |        17640 |           1.5MB/s |
+| node:http (sqlite3)                  | v20.10.0 |        4.60x |      18495 |         9790 |           2.7MB/s |
+| node:net (pg)                        | v20.10.0 |        4.56x |      18326 |         8595 |           1.2MB/s |
+| h3 (sqlite3)                         | 1.9.0    |        4.55x |      18304 |        14978 |           2.8MB/s |
+| uwebsockets-express (sqlite3)        | 1.3.5    |        4.36x |      17512 |        13380 |           2.3MB/s |
+| fastify (sqlite3)                    | 4.24.3   |        4.10x |      16486 |        18263 |           2.8MB/s |
+| node:http (pg)                       | v20.10.0 |        3.41x |      13696 |         9787 |           2.0MB/s |
+| h3 (pg)                              | 1.9.0    |        3.22x |      12924 |        11330 |           2.0MB/s |
+| fastify (pg)                         | 4.24.3   |        3.18x |      12796 |        10880 |           2.2MB/s |
+| uwebsockets-express (pg)             | 1.3.5    |        3.02x |      12123 |        15687 |           1.6MB/s |
+| fastify (postgres)                   | 4.24.3   |        2.68x |      10773 |        18369 |           1.8MB/s |
+| express (text)                       | 4.18.2   |        2.10x |       8430 |       360050 |           2.0MB/s |
+| hyper-express (postgres)             | 6.14.3   |        2.06x |       8280 |        23147 |           0.7MB/s |
+| h3 (postgres)                        | 1.9.0    |        2.02x |       8124 |        30350 |           1.2MB/s |
+| express (better-sqlite3)             | 4.18.2   |        1.81x |       7269 |       132325 |           1.7MB/s |
+| express (sqlite3)                    | 4.18.2   |        1.66x |       6689 |        50388 |           1.6MB/s |
+| express (postgres)                   | 4.18.2   |        1.62x |       6506 |        61387 |           1.5MB/s |
+| node:net (postgres)                  | v20.10.0 |        1.47x |       5889 |        36418 |           0.4MB/s |
+| node:http (postgres)                 | v20.10.0 |        1.42x |       5701 |        32438 |           0.8MB/s |
+| uWebSockets.js (postgres)            | 20.34.0  |        1.37x |       5516 |        31355 |           0.4MB/s |
+| express (pg)                         | 4.18.2   |        1.32x |       5306 |        55945 |           1.2MB/s |
+| uwebsockets-express (postgres)       | 1.3.5    |        1.00x |       4019 |        50172 |           0.5MB/s |
+
 
 ### Originial Benchmark
 
