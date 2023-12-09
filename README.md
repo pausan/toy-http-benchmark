@@ -15,6 +15,9 @@ All programs have these routes defined in this order:
 The reason to have several paths starting with the same prefix is to somehow
 test a little bit the performance of the routing of the different libraries.
 
+While I published the raw data here, feel free to read the
+[full analysis on nodejs frameworks in my personal blog](https://www.pausanchez.com/en/articles/yet-another-nodejs-benchmark/).
+
 ## Benchmark
 
 Initially I used autocannon which is in node and allowed me to easily gather
