@@ -32,7 +32,7 @@ async function main() {
     // zeroHttp
   ];
 
-  controller.setup();
+  await controller.setup();
 
   // just a sample
   // controller.hello = controller.helloBetterSqlite3;

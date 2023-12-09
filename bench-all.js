@@ -160,16 +160,16 @@ async function main() {
   console.log("  Connections:  ", g_testConfig.connections);
   console.log(" ");
 
-  await libUtil.setup()
-
   await execAsync("docker-compose up -d");
   await new Promise((x) => setTimeout(x, 3000)) // wait for pg to start
-  controller.setup();
+  await libUtil.setup()
+  await controller.setup();
 
   const controllers = {
     text: controller.helloText,
-    sqlite3: controller.helloSqlite3,
+    redis: controller.helloRedis,
     "better-sqlite3": controller.helloBetterSqlite3,
+    sqlite3: controller.helloSqlite3,
     pg: controller.helloPg,
     postgres: controller.helloPostgres,
   };
@@ -190,6 +190,7 @@ async function main() {
         ...g_testConfig,
         port: 3000 + portIndex,
       });
+      result.framework = result.name;
       result.handler = controllerName;
       results.push(result);
       allResults.push({
