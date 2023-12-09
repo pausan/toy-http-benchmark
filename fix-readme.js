@@ -67,12 +67,12 @@ function renderBlogMarkdown(benchResultSet) {
   for (const handler of benchResultSet.allHandlers) {
     const results = benchResultSet.resultsForHandler.get(handler)
 
-    contents.push (`{{% tab name="${handler} handler" %}}`)
+    contents.push (`{{% tab name="${handler}" %}}`)
     contents.push(util.generateMarkdownTable(results));
     contents.push (`{{% /tab %}}\n`)
   }
 
-  contents.push (`{{% tab name="All Handlers" %}}`)
+  contents.push (`{{% tab name="All handlers" %}}`)
   contents.push(util.generateMarkdownTable(benchResultSet.allResults));
   contents.push (`{{% /tab %}}\n`)
 
