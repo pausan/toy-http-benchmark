@@ -38,9 +38,9 @@ function getMedalFor(name, array, field, lowerIsBetter) {
 
   if (lowerIsBetter !== "LOWER_IS_BETTER") clone.reverse();
 
-  if (clone[0].name === name) return gold;
-  if (clone[1].name === name) return silver;
-  if (clone[2].name === name) return bronze;
+  if (name === clone[0].name) return gold;
+  if (name === clone[1].name) return silver;
+  if (name === clone[2].name) return bronze;
   return "";
 }
 
@@ -66,10 +66,6 @@ function generateMarkdownTable(data) {
     return 0;
   });
 
-  // const nodeHttp = clone.find((x) => x.name == 'node:http')
-  // const referenceReqPerSec = (nodeHttp || clone[clone.length - 1]).requests;
-  const referenceReqPerSec = clone[clone.length - 1].requests;
-
   const table = [
     [
       "Name",
@@ -82,9 +78,16 @@ function generateMarkdownTable(data) {
     ],
   ];
 
+  // const nodeHttp = clone.find((x) => x.name == 'node:http')
+  // const referenceReqPerSec = (nodeHttp || clone[clone.length - 1]).requests;
+  const referenceReqPerSec = clone[clone.length - 1].requests;
+
+  // speed needs to be added to all items so we can properly assign medals
   for (const item of clone) {
     item.speed = item.requests / referenceReqPerSec;
+  }
 
+  for (const item of clone) {
     const row = [
       item.name,
       item.version,
